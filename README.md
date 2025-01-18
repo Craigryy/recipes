@@ -190,14 +190,3 @@ git config --global user.email email@example.com
 git config --global user.name "User Name" 
 git config --global push.autoSetupRemote true
 ```
-
-## Other courses
-
-Check out our courses on [londonappdeveloper.com](https://londonappdeveloper.com).
-
-Or find them below:
-
-- [Python for Absolute Beginners](https://londonapp.dev/c4)
-- [Build a Backend REST API with Python & Django REST Framework - Beginner](https://londonapp.dev/c1)
-- [Build a Backend REST API with Python & Django REST Framework - Advanced](https://londonapp.dev/c2)
-- [Deploy a Serverless Django App on Google App Engine](https://londonapp.dev/c5)
