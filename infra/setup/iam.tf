@@ -14,43 +14,77 @@ resource "aws_iam_access_key" "cd" {
 # Policy for Teraform backend to S3 and DynamoDB access #
 #########################################################
 
-data "aws_iam_policy_document" "tf_backend" {
+# data "aws_iam_policy_document" "tf_backend" {
+#   statement {
+#     effect    = "Allow"
+#     actions   = ["s3:ListBucket"]
+#     resources = ["arn:aws:s3:::${var.tf_state_bucket}"]
+#   }
+
+#   statement {
+#     effect  = "Allow"
+#     actions = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+#     resources = [
+#       "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy/*",
+#       "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy-env/*"
+#     ]
+#   }
+#   statement {
+#     effect = "Allow"
+#     actions = [
+#       "dynamodb:DescribeTable",
+#       "dynamodb:GetItem",
+#       "dynamodb:PutItem",
+#       "dynamodb:DeleteItem"
+#     ]
+#     resources = ["arn:aws:dynamodb:*:*:table/${var.tf_state_lock_table}"]
+#   }
+# }
+
+# resource "aws_iam_policy" "tf_backend" {
+#   name        = "${aws_iam_user.cd.name}-tf-s3-dynamodb"
+#   description = "Allow user to use S3 and DynamoDB for TF backend resources"
+#   policy      = data.aws_iam_policy_document.tf_backend.json
+# }
+
+# resource "aws_iam_user_policy_attachment" "tf_backend" {
+#   user       = aws_iam_user.cd.name
+#   policy_arn = aws_iam_policy.tf_backend.arn
+# }
+
+
+
+#########################
+# Policy for S3 and DynamoDB access #
+#########################
+
+data "aws_iam_policy_document" "s3_dynamodb" {
   statement {
     effect    = "Allow"
-    actions   = ["s3:ListBucket"]
-    resources = ["arn:aws:s3:::${var.tf_state_bucket}"]
+    actions   = ["s3:*"]
+    resources = ["arn:aws:s3:::*","arn:aws:s3:::*/*"]
   }
 
   statement {
-    effect  = "Allow"
-    actions = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
-    resources = [
-      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy/*",
-      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy-env/*"
-    ]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "dynamodb:DescribeTable",
-      "dynamodb:GetItem",
-      "dynamodb:PutItem",
-      "dynamodb:DeleteItem"
-    ]
-    resources = ["arn:aws:dynamodb:*:*:table/${var.tf_state_lock_table}"]
+    effect    = "Allow"
+    actions   = ["dynamodb:*"]
+    resources = ["arn:aws:dynamodb:*:*:table/*", "arn:aws:dynamodb:*:*:table/*/index/*"]
   }
 }
 
-resource "aws_iam_policy" "tf_backend" {
-  name        = "${aws_iam_user.cd.name}-tf-s3-dynamodb"
-  description = "Allow user to use S3 and DynamoDB for TF backend resources"
-  policy      = data.aws_iam_policy_document.tf_backend.json
+resource "aws_iam_policy" "s3_dynamodb" {
+  name        = "${aws_iam_user.cd.name}-s3-dynamodb"
+  description = "Allow user full access to S3 and DynamoDB resources"
+  policy      = data.aws_iam_policy_document.s3_dynamodb.json
 }
 
-resource "aws_iam_user_policy_attachment" "tf_backend" {
+resource "aws_iam_user_policy_attachment" "s3_dynamodb" {
   user       = aws_iam_user.cd.name
-  policy_arn = aws_iam_policy.tf_backend.arn
+  policy_arn = aws_iam_policy.s3_dynamodb.arn
 }
+
+
+
 
 #########################
 # Policy for ECR access #
