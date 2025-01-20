@@ -27,7 +27,7 @@ jobs:
             echo "prod" > .workspace
           else
           echo "staging" > .workspace
-          fi 
+          fi
       - name: Push to ECR
         env:
           AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
