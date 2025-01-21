@@ -9,6 +9,9 @@ resource "aws_db_subnet_group" "master" {
     aws_subnet.private_b.id
   ]
 
+  tags = {
+    Name = "${local.prefix}-db-subnet-group"
+  }
 }
 
 resource "aws_security_group" "rds" {
@@ -33,7 +36,7 @@ resource "aws_db_instance" "master" {
   allocated_storage          = 20
   storage_type               = "gp2"
   engine                     = "postgres"
-  engine_version             = "16.3"
+  engine_version             = "15.3"
   auto_minor_version_upgrade = true
   instance_class             = "db.t4g.micro"
   username                   = var.db_username
