@@ -277,6 +277,7 @@ resource "aws_iam_policy" "logs" {
   policy      = data.aws_iam_policy_document.logs.json
 }
 
+
 resource "aws_iam_user_policy_attachment" "logs" {
   user       = aws_iam_user.cd.name
   policy_arn = aws_iam_policy.logs.arn
