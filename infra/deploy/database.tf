@@ -9,9 +9,6 @@ resource "aws_db_subnet_group" "master" {
     aws_subnet.private_b.id
   ]
 
-  tags = {
-    Name = "${local.prefix}-db-subnet-group"
-  }
 }
 
 resource "aws_security_group" "rds" {
