@@ -183,23 +183,23 @@ resource "aws_security_group" "ecs_service" {
   }
 }
 
-resource "aws_ecs_service" "api" {
-  name                   = "${local.prefix}-api"
-  cluster                = aws_ecs_cluster.master.name
-  task_definition        = aws_ecs_task_definition.api.family
-  desired_count          = 1
-  launch_type            = "FARGATE"
-  platform_version       = "1.4.0"
-  enable_execute_command = true
+# resource "aws_ecs_service" "api" {
+#   name                   = "${local.prefix}-api"
+#   cluster                = aws_ecs_cluster.master.name
+#   task_definition        = aws_ecs_task_definition.api.family
+#   desired_count          = 1
+#   launch_type            = "FARGATE"
+#   platform_version       = "1.4.0"
+#   enable_execute_command = true
 
-  network_configuration {
-    assign_public_ip = true
+#   network_configuration {
+#     assign_public_ip = true
 
-    subnets = [
-      aws_subnet.public_a.id,
-      aws_subnet.public_b.id
-    ]
+#     subnets = [
+#       aws_subnet.public_a.id,
+#       aws_subnet.public_b.id
+#     ]
 
-    security_groups = [aws_security_group.ecs_service.id]
-  }
-}
+#     security_groups = [aws_security_group.ecs_service.id]
+#   }
+# }
