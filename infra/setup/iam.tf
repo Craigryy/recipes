@@ -185,7 +185,7 @@ data "aws_iam_policy_document" "ecs" {
   statement {
     effect = "Allow"
     actions = [
-      
+
       "ecs:DescribeClusters",
       "ecs:DeregisterTaskDefinition",
       "ecs:DeleteCluster",
