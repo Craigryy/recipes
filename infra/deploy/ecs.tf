@@ -181,6 +181,20 @@ resource "aws_security_group" "ecs_service" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+   # Custom TCP Rule for port 8080
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+   # Custom TCP Rule for port 8080
+  ingress {
+    from_port   = 0000
+    to_port     = 0000
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_ecs_service" "api" {
