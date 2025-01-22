@@ -2,8 +2,8 @@
 # Database #
 ############
 
-resource "aws_db_subnet_group" "master" {
-  name = "${local.prefix}-master"
+resource "aws_db_subnet_group" "main" {
+  name = "${local.prefix}-main"
   subnet_ids = [
     aws_subnet.private_a.id,
     aws_subnet.private_b.id
@@ -17,7 +17,7 @@ resource "aws_db_subnet_group" "master" {
 resource "aws_security_group" "rds" {
   name        = "${local.prefix}-rds-inbound-access"
   description = "Allow access to the RDS database instance."
-  vpc_id      = aws_vpc.master.id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     description     = "Allow PostgreSQL access"
@@ -32,7 +32,7 @@ resource "aws_security_group" "rds" {
   }
 }
 
-resource "aws_db_instance" "master" {
+resource "aws_db_instance" "main" {
   identifier                 = "${local.prefix}-db"
   db_name                    = "recipe"
   allocated_storage          = 20
@@ -44,12 +44,12 @@ resource "aws_db_instance" "master" {
   username                   = var.db_username
   password                   = var.db_password
   skip_final_snapshot        = true
-  db_subnet_group_name       = aws_db_subnet_group.master.name
+  db_subnet_group_name       = aws_db_subnet_group.main.name
   multi_az                   = false
   backup_retention_period    = 0
   vpc_security_group_ids     = [aws_security_group.rds.id]
 
   tags = {
-    Name = "${local.prefix}-master"
+    Name = "${local.prefix}-main"
   }
 }

@@ -40,7 +40,7 @@ resource "aws_cloudwatch_log_group" "ecs_task_logs" {
   name = "${local.prefix}-api"
 }
 
-resource "aws_ecs_cluster" "master" {
+resource "aws_ecs_cluster" "main" {
   name = "${local.prefix}-cluster"
 }
 
@@ -68,19 +68,19 @@ resource "aws_ecs_task_definition" "api" {
           },
           {
             name  = "DB_HOST"
-            value = aws_db_instance.master.address
+            value = aws_db_instance.main.address
           },
           {
             name  = "DB_NAME"
-            value = aws_db_instance.master.db_name
+            value = aws_db_instance.main.db_name
           },
           {
             name  = "DB_USER"
-            value = aws_db_instance.master.username
+            value = aws_db_instance.main.username
           },
           {
             name  = "DB_PASS"
-            value = aws_db_instance.master.password
+            value = aws_db_instance.main.password
           },
           {
             name  = "ALLOWED_HOSTS"
@@ -153,7 +153,7 @@ resource "aws_ecs_task_definition" "api" {
 resource "aws_security_group" "ecs_service" {
   description = "Access rules for the ECS service."
   name        = "${local.prefix}-ecs-service"
-  vpc_id      = aws_vpc.master.id
+  vpc_id      = aws_vpc.main.id
 
   # Outbound access to endpoints
   egress {
@@ -185,7 +185,7 @@ resource "aws_security_group" "ecs_service" {
 
 resource "aws_ecs_service" "api" {
   name                   = "${local.prefix}-api"
-  cluster                = aws_ecs_cluster.master.name
+  cluster                = aws_ecs_cluster.main.name
   task_definition        = aws_ecs_task_definition.api.family
   desired_count          = 1
   launch_type            = "FARGATE"
