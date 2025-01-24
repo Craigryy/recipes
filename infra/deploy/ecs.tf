@@ -113,6 +113,7 @@ resource "aws_ecs_task_definition" "api" {
           {
             containerPort = 8000
             hostPort      = 8000
+            protocol      = "tcp"
           }
         ]
         environment = [
@@ -159,8 +160,10 @@ resource "aws_security_group" "ecs_service" {
   egress {
     from_port   = 443
     to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    cidr_blocks = [
+      "0.0.0.0/0"
+      ]
   }
 
   # RDS connectivity
@@ -176,10 +179,13 @@ resource "aws_security_group" "ecs_service" {
 
   # HTTP inbound access
   ingress {
-    from_port   = 8000
-    to_port     = 8000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description = "allow inbound traffic on port 8000"
+    from_port = 8000
+    to_port   = 8000
+    protocol  = "tcp"
+      cidr_blocks = [ 
+        "0.0.0.0/0"
+    ]
   }
 }
 
@@ -199,7 +205,6 @@ resource "aws_ecs_service" "api" {
       aws_subnet.public_a.id,
       aws_subnet.public_b.id
     ]
-
 
     security_groups = [aws_security_group.ecs_service.id]
   }
