@@ -111,8 +111,8 @@ resource "aws_ecs_task_definition" "api" {
         user              = "nginx"
         portMappings = [
           {
-            containerPort = 8000
-            hostPort      = 8000
+            containerPort = 8090
+            hostPort      = 8090
           }
         ]
         environment = [
@@ -176,23 +176,9 @@ resource "aws_security_group" "ecs_service" {
 
   # HTTP inbound access
   ingress {
-    from_port   = 8000
-    to_port     = 8000
+    from_port   = 8090
+    to_port     = 8090
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  # Custom TCP Rule for port 8080
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  # Custom TCP Rule for port 8080
-  ingress {
-    from_port   = 0000
-    to_port     = 0000
-    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
