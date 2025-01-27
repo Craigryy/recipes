@@ -1,7 +1,6 @@
 server {
-    listen 80;  # Listen on port 80
+    listen ${LISTEN_PORT};  # Use LISTEN_PORT environment variable
 
-    # Serve static files
     location /static/static {
         alias /vol/static;
     }
@@ -10,11 +9,10 @@ server {
         alias /vol/media;
     }
 
-    # Proxy requests to Gunicorn (ensure APP_HOST and APP_PORT are set)
-    location / { 
+    location / {
         include              gunicorn_headers;
         proxy_redirect       off;
-        proxy_pass           http://${APP_HOST}:${APP_PORT};  # Ensure this is pointing to the correct app and port
+        proxy_pass           http://${APP_HOST}:${APP_PORT};
         client_max_body_size 10M;
     }
 }
