@@ -1,5 +1,6 @@
 server {
-    listen ${LISTEN_PORT};  # Use LISTEN_PORT environment variable
+    listen ${LISTEN_PORT};
+    server_name 127.0.0.1;
 
     location /static/static {
         alias /vol/static;

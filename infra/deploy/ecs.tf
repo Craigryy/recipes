@@ -111,10 +111,15 @@ resource "aws_ecs_task_definition" "api" {
         user              = "nginx"
         portMappings = [
           {
-            containerPort = 8080
-            hostPort      = 8080
+            containerPort = 80
+            hostPort      = 80
           }
         ]
+        linuxParameters = {
+          capabilities = {
+            add = ["CAP_NET_BIND_SERVICE"]
+          }
+        }
         environment = [
           {
             name  = "APP_HOST"
