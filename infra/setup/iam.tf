@@ -52,7 +52,6 @@ resource "aws_iam_user_policy_attachment" "tf_backend" {
   policy_arn = aws_iam_policy.tf_backend.arn
 }
 
-
 #########################
 # Policy for ECR access #
 #########################
@@ -159,15 +158,22 @@ data "aws_iam_policy_document" "rds" {
   statement {
     effect = "Allow"
     actions = [
-      "rds:*" # Allow all RDS actions
+      "rds:DescribeDBSubnetGroups",
+      "rds:DescribeDBInstances",
+      "rds:CreateDBSubnetGroup",
+      "rds:DeleteDBSubnetGroup",
+      "rds:CreateDBInstance",
+      "rds:DeleteDBInstance",
+      "rds:ListTagsForResource",
+      "rds:ModifyDBInstance"
     ]
-    resources = ["*"] # Allow access to all RDS resources
+    resources = ["*"]
   }
 }
 
 resource "aws_iam_policy" "rds" {
   name        = "${aws_iam_user.cd.name}-rds"
-  description = "Allow user to manage all RDS resources."
+  description = "Allow user to manage RDS resources."
   policy      = data.aws_iam_policy_document.rds.json
 }
 
@@ -175,7 +181,6 @@ resource "aws_iam_user_policy_attachment" "rds" {
   user       = aws_iam_user.cd.name
   policy_arn = aws_iam_policy.rds.arn
 }
-
 
 #########################
 # Policy for ECS access #
@@ -185,7 +190,7 @@ data "aws_iam_policy_document" "ecs" {
   statement {
     effect = "Allow"
     actions = [
-
+      "ecs:*",
       "ecs:DescribeClusters",
       "ecs:DeregisterTaskDefinition",
       "ecs:DeleteCluster",
@@ -278,49 +283,7 @@ resource "aws_iam_policy" "logs" {
   policy      = data.aws_iam_policy_document.logs.json
 }
 
-
 resource "aws_iam_user_policy_attachment" "logs" {
   user       = aws_iam_user.cd.name
   policy_arn = aws_iam_policy.logs.arn
-}
-
-#########################
-# Policy for ELB access #
-#########################
-
-data "aws_iam_policy_document" "elb" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "elasticloadbalancing:DeleteLoadBalancer",
-      "elasticloadbalancing:DeleteTargetGroup",
-      "elasticloadbalancing:DeleteListener",
-      "elasticloadbalancing:DescribeListeners",
-      "elasticloadbalancing:DescribeLoadBalancerAttributes",
-      "elasticloadbalancing:DescribeTargetGroups",
-      "elasticloadbalancing:DescribeTargetGroupAttributes",
-      "elasticloadbalancing:DescribeLoadBalancers",
-      "elasticloadbalancing:CreateListener",
-      "elasticloadbalancing:SetSecurityGroups",
-      "elasticloadbalancing:ModifyLoadBalancerAttributes",
-      "elasticloadbalancing:CreateLoadBalancer",
-      "elasticloadbalancing:ModifyTargetGroupAttributes",
-      "elasticloadbalancing:CreateTargetGroup",
-      "elasticloadbalancing:AddTags",
-      "elasticloadbalancing:DescribeTags",
-      "elasticloadbalancing:ModifyListener"
-    ]
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_policy" "elb" {
-  name        = "${aws_iam_user.cd.name}-elb"
-  description = "Allow user to manage ELB resources."
-  policy      = data.aws_iam_policy_document.elb.json
-}
-
-resource "aws_iam_user_policy_attachment" "elb" {
-  user       = aws_iam_user.cd.name
-  policy_arn = aws_iam_policy.elb.arn
 }

@@ -1,5 +1,5 @@
 server {
-    listen 8000;  # Listen on port 8000
+    listen 80;  # Listen on port 80
 
     # Serve static files
     location /static/static {
