@@ -108,18 +108,13 @@ resource "aws_ecs_task_definition" "api" {
         image             = var.ecr_proxy_image
         essential         = true
         memoryReservation = 256
-        user              = "nginx"
+        user              = "root"
         portMappings = [
           {
             containerPort = 80
             hostPort      = 80
           }
         ]
-        linuxParameters = {
-          capabilities = {
-            add = ["CAP_NET_BIND_SERVICE"]
-          }
-        }
         environment = [
           {
             name  = "APP_HOST"

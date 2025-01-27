@@ -1,5 +1,5 @@
 server {
-    listen ${LISTEN_PORT};
+    listen 80; # Use port 80 directly
     server_name 127.0.0.1;
 
     location /static/static {

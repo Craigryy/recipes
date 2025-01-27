@@ -1,7 +1,7 @@
-FROM nginxinc/nginx-unprivileged:1-alpine
+FROM nginx:1-alpine
 LABEL maintainer="harrisonjames"
 
-COPY ./default.conf.tpl /etc/nginx/default.conf.tpl
+COPY ./default.conf.tpl /etc/nginx/templates/default.conf.tpl
 COPY ./gunicorn_headers /etc/nginx/gunicorn_headers
 COPY ./run.sh /run.sh
 
@@ -9,19 +9,9 @@ ENV LISTEN_PORT=80
 ENV APP_HOST=app
 ENV APP_PORT=9000
 
-USER root
-
-RUN mkdir -p /vol/static && \
-    mkdir -p /vol/media && \
-    chmod 755 /vol/ && \
-    chown -R nginx:nginx /vol && \
-    touch /etc/nginx/conf.d/default.conf && \
-    chown nginx:nginx /etc/nginx/conf.d/default.conf && \
+RUN mkdir -p /vol/static /vol/media && \
+    chmod 755 /vol/static /vol/media && \
     chmod +x /run.sh
-
-VOLUME /vol/static
-
-USER nginx
 
 VOLUME /vol/static
 VOLUME /vol/media
