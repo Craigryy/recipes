@@ -19,7 +19,6 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-
 ##################################################
 # Public subnets for load balancer public access #
 ##################################################
@@ -100,7 +99,6 @@ resource "aws_subnet" "private_b" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.1.11.0/24"
   availability_zone = "${data.aws_region.current.name}b"
-
 
   tags = {
     Name = "${local.prefix}-private-b"

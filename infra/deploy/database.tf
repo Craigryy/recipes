@@ -15,16 +15,18 @@ resource "aws_db_subnet_group" "main" {
 }
 
 resource "aws_security_group" "rds" {
-  name        = "${local.prefix}-rds-inbound-access"
   description = "Allow access to the RDS database instance."
+  name        = "${local.prefix}-rds-inbound-access"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "Allow PostgreSQL access"
-    protocol        = "tcp"
-    from_port       = 5432
-    to_port         = 5432
-    security_groups = [aws_security_group.ecs_service.id] # Update with `source_security_group_id` if necessary
+    protocol  = "tcp"
+    from_port = 5432
+    to_port   = 5432
+
+    security_groups = [
+      aws_security_group.ecs_service.id
+    ]
   }
 
   tags = {
