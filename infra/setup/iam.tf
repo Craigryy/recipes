@@ -159,6 +159,7 @@ data "aws_iam_policy_document" "rds" {
     effect = "Allow"
     actions = [
       "rds:*",
+      "rds:AddTagsToResource",
       "rds:DescribeDBSubnetGroups",
       "rds:DescribeDBInstances",
       "rds:CreateDBSubnetGroup",
