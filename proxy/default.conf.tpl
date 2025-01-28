@@ -1,6 +1,5 @@
-server {
-    listen 80; # Use port 80 directly
-    server_name _;
+server {    
+    listen ${LISTEN_PORT};
 
     location /static/static {
         alias /vol/static;
@@ -13,7 +12,7 @@ server {
     location / {
         include              gunicorn_headers;
         proxy_redirect       off;
-        proxy_pass           http://127.0.0.1:9000;  # Forward traffic to the API container on port 9000
+        proxy_pass           http://${APP_HOST}:${APP_PORT};
         client_max_body_size 10M;
     }
 }

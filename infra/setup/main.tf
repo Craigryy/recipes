@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "devops-craigrecipe-app-tf-state"
+    bucket         = "devops-craigrecipe-app-api-state"
     key            = "tf-state-setup"
     region         = "eu-north-1"
     encrypt        = true

@@ -1,6 +1,6 @@
 variable "tf_state_bucket" {
   description = "Name of S3 bucket in AWS for storing TF state"
-  default     = "devops-craigrecipe-app-tf-state"
+  default     = "devops-craigrecipe-app-api-state"
 }
 
 variable "tf_state_lock_table" {
@@ -17,3 +17,4 @@ variable "contact" {
   description = "Contact name for tagging resources"
   default     = "harriajames98@gmail.com"
 }
+
