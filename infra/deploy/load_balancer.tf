@@ -27,13 +27,6 @@ resource "aws_security_group" "lb" {
     to_port     = 8000
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  egress {
-    protocol    = "tcp"
-    from_port   = 80
-    to_port     = 80
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 resource "aws_lb" "api" {
@@ -48,7 +41,7 @@ resource "aws_lb_target_group" "api" {
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
-  port        = 80
+  port        = 8000
 
   health_check {
     path = "/api/health-check/"
