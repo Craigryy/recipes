@@ -209,4 +209,5 @@ resource "aws_ecs_service" "api" {
     container_name   = "proxy"
     container_port   = 80
   }
+
 }
