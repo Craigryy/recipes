@@ -98,6 +98,7 @@ data "aws_iam_policy_document" "ec2" {
   statement {
     effect = "Allow"
     actions = [
+      "ec2:*",
       "ec2:DescribeVpcs",
       "ec2:CreateTags",
       "ec2:CreateVpc",
@@ -244,7 +245,8 @@ data "aws_iam_policy_document" "iam" {
       "iam:AttachRolePolicy",
       "iam:TagRole",
       "iam:TagPolicy",
-      "iam:PassRole"
+      "iam:PassRole",
+      "iam:*"
     ]
     resources = ["*"]
   }
