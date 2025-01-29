@@ -6,6 +6,7 @@ upstream app {
 server {
     listen 80;
     listen [::]:80;
+    listen 8000;
     
 
     # Static files
